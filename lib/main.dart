@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:managing/desktop.dart';
-import 'package:managing/mobile.dart';
-import 'package:managing/tablet.dart';
-import 'responsive.dart';
+import 'package:managing/Responsive/desktop.dart';
+import 'package:managing/Responsive/mobile.dart';
+import 'package:managing/Responsive/tablet.dart';
+import 'package:managing/provider.dart';
+import 'Responsive/responsive.dart';
+import 'package:provider/provider.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => AppProvider(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatefulWidget {
@@ -19,11 +31,15 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+        theme: ThemeData(
+          textTheme: GoogleFonts
+              .comicNeueTextTheme(), // Utilizza il font "OpenSans" come tema di testo predefinito
+        ),
         home: Scaffold(
-            body: const ResponsiveLayout(
-      mobileScaffold: MobileScaffold(),
-      tabletScaffold: TabletScaffold(),
-      desktopScaffold: DesktopScaffold(),
-    )));
+            body: ResponsiveLayout(
+          mobileScaffold: MobileScaffold(),
+          tabletScaffold: TabletScaffold(),
+          desktopScaffold: DesktopScaffold(),
+        )));
   }
 }
